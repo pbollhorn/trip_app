@@ -1,0 +1,11 @@
+#banner {
+  color: inherit; /* Uses the color of surrounding text */
+  text-decoration: none; /* Removes the underline */
+}
+
+#navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #eee;
+}
