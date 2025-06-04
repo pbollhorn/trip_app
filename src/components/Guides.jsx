@@ -10,7 +10,7 @@ export default function Guides() {
   useEffect(() => {
     if (api.hasUserAccess("admin", loggedIn)) {
       const fun = async () => {
-        setGuideData(await fetchGuideData());
+        setGuideData(await getGuidesFromAllSources());
       };
       fun();
     }
@@ -45,13 +45,45 @@ export default function Guides() {
   );
 }
 
+async function getGuidesFromAllSources() {
+  const guidesFromApi = await fetchGuideData();
+  const guidesFromValbyTours = getGuidesFromValbyTours();
+
+  console.log([guidesFromApi, guidesFromValbyTours]);
+  console.log([...guidesFromApi, ...guidesFromValbyTours]);
+
+  return [...guidesFromApi, ...guidesFromValbyTours];
+}
+
 async function fetchGuideData() {
   const response = await fetch(
     "https://tripapi.cphbusinessapps.dk/api/guides",
     api.makeOptions("GET", true)
   );
   const guideData = await response.json();
-  console.log(guideData);
 
   return guideData;
+}
+
+function getGuidesFromValbyTours() {
+  return [
+    {
+      id: "10",
+      firstname: "Egon",
+      lastname: "Olsen",
+      email: "egon@olsen.dk",
+    },
+    {
+      id: "11",
+      firstname: "Benny",
+      lastname: "Frandsen",
+      email: "benny@frandsen.dk",
+    },
+    {
+      id: "12",
+      firstname: "Kjeld",
+      lastname: "Jensen",
+      email: "kjeld@jensen.dk",
+    },
+  ];
 }
